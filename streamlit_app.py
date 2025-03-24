@@ -26,7 +26,7 @@ def predict_with_model(model, user_input):
   return prediction[0]
 
 def main():
-  st.title('Machine Learning App')
+  st.title('Diabetes Classification')
   
   st.info('This app will predict your obesity level!')
   
