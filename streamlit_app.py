@@ -27,29 +27,29 @@ def predict_with_model(model, user_input):
 
 def main():
   st.title('Diabetes Classification')
-  
-  st.info('This app will predict your obesity level!')
-  
-  # Raw Data
-  with st.expander('**Data**'):
-    st.write('This is a raw data')
-    df = pd.read_csv('https://raw.githubusercontent.com/JeffreyJuinior/dp-machinelearning/refs/heads/master/ObesityDataSet_raw_and_data_sinthetic.csv')
-    df
-    st.write('**X**')
-    X = df.drop('NObeyesdad',axis=1)
-    X
-    st.write('**y**')
-    y = df['NObeyesdad']
-    y
-  
-  # Visualization
+  st.info("This app use machine learning to classify diabetes levels.")
+
+  st.subheader("Dataset")
+  df = pd.read_csv("ObesityDataSet_raw_and_data_sinthetic.csv")
+  x, y = split_x_y(df)
+  with st.expander("**Raw Data**"):
+    st.dataframe(df.head(50))
+
+  with st.expander("**Input Data**"):
+    st.dataframe(x.head(50))
+
+  with st.expander("**Output Data**"):
+    st.dataframe(y.head(50))
+
+  st.subheader("Height vs Weight With Obesity Level")
   with st.expander('**Data Visualization**'):
     st.scatter_chart(data=df, x = 'Height', y = 'Weight', color='NObeyesdad')
-  
-  # Input Data bu User
-  Age = st.slider('Age', min_value = 14, max_value = 61, value = 24)
-  Height = st.slider('Height', min_value = 1.45, max_value = 1.98, value = 1.7)
-  Weight = st.slider('Weight', min_value = 39, max_value = 173, value = 86)
+
+  # input data by user
+  st.subheader("Input Patient Data")
+  Age = st.slider('Age', min_value = 10, max_value = 65, value = 25)
+  Height = st.slider('Height', min_value = 1.45, max_value = 2.00, value = 1.75)
+  Weight = st.slider('Weight', min_value = 30, max_value = 180, value = 70)
   FCVC = st.slider('FCVC', min_value = 1, max_value = 3, value = 2)
   NCP = st.slider('NCP', min_value = 1, max_value = 4, value = 3)
   CH2O = st.slider('CH2O', min_value = 1, max_value = 3, value = 2)
@@ -65,31 +65,22 @@ def main():
   CALC = st.selectbox('CALC', ('Sometimes', 'no', 'Frequently', 'Always'))
   MTRANS = st.selectbox('MTRANS', ('Public_Transportation', 'Automobile', 'Walking', 'Motorbike', 'Bike'))
 
-  # Input Data for Program
-  user_input = [Gender, Age, Height, Weight, family_history_with_overweight, FAVC, FCVC, NCP, CAEC, SMOKE, CH2O, SCC, FAF, TUE, CALC, MTRANS]
-  df = input_to_df(user_input)
+  input_data = [Gender, Age, Height, Weight, family_history_with_overweight, FAVC, FCVC, NCP, CAEC, SMOKE, CH2O, SCC, FAF, TUE, CALC, MTRANS]
 
-  st.write('Data input by user')
-  df
+  user_df = convert_input_to_df(input_data)
 
-  df = encode(df)
-  df = normalize(df)
-  prediction = predict_with_model(model, df)
-  
-  prediction_proba = model.predict_proba(df)
-  df_prediction_proba = pd.DataFrame(prediction_proba)
-  df_prediction_proba.columns = ['Insufficient Weight', 'Normal Weight', 'Overweight Level I', 'Overweight Level II', 'Obesity Type I', 'Obesity Type II', 'Obesity Type III']
-  df_prediction_proba.rename(columns={0: 'Insufficient Weight', 
-                                      1:'Normal Weight', 
-                                      2: 'Overweight Level I', 
-                                      3: 'Overweight Level II', 
-                                      4:'Obesity Type I', 
-                                      5:'Obesity Type II', 
-                                      6: 'Obesity Type III'})
+  st.subheader("Inputted Patient Data")
+  st.dataframe(user_df)
 
-  st.write('Obesity Prediction')
-  df_prediction_proba
-  st.write('The predicted output is: ',prediction) 
+  user_df = encode_features(user_df)
+  user_df = normalize_features(user_df)
+
+  prediction = predict_classification(user_df)
+  proba = classification_proba(user_df)
+
+  st.subheader("Prediction Result")
+  st.dataframe(proba)
+  st.write('The predicted output is: ', prediction)
   
 
 if __name__ == "__main__":
