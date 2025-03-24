@@ -1,5 +1,5 @@
 import streamlit as st
 
-st.title('🎈 App Name')
+st.title('Diabetes Classification')
 
-st.write('Hello world!')
+st.write('Diabetes categories obtained using Machine Learning and OOP')
