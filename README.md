@@ -1,8 +1,10 @@
-Diabetes Classification with Machine Learning
+# Diabetes Model Deployment Project
+
+Diabetes Classification using Machine Learning and OOP
 
 ## Demo App
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://app-starter-kit.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://diabetesmodeldepasg-dvn8kjpdzgg3ums4mh4m8h.streamlit.app/)
 
 ## GitHub Codespaces
 
